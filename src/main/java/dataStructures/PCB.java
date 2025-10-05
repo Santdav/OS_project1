@@ -11,12 +11,19 @@ package dataStructures;
  * @author santi
  */
 public class PCB {
-    //Identificacion del proceso
+    //Process identification
     private int id;
-    private String name;
-    // Estado del procesador
+    private String name;    
+    //Process State information
+    private int PC;
+    private int MAR;
+        //Status information
+        
+    //Process Control
     private StateProcess state;
-    // Informacion de control
-    //TODO lo demas
+    private int priority;
+        //Variables relacionadas a los algoritmos de scheduling
+    
+    
     
 }
