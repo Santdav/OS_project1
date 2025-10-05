@@ -18,11 +18,21 @@ public class PCB {
     private int PC;
     private int MAR;
         //Status information
+    
         
     //Process Control
     private StateProcess state;
     private int priority;
-        //Variables relacionadas a los algoritmos de scheduling
+    
+    private boolean isCPUBound;
+    private int totalInstructions;
+    
+    private int ioExceptionCycle;     // Ciclos para generar excepción E/S
+    private int ioCompletionCycle;    // Ciclos para completar E/S
+
+    private int startTime;                  // Ciclo cuando entró al sistema
+    private int completionTime;             // Ciclo cuando terminó
+    private int cpuTimeUsed;                // Ciclos de CPU utilizados
     
     
     

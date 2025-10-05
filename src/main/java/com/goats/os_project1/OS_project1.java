@@ -4,6 +4,7 @@
 
 package com.goats.os_project1;
 import GuiElements.MainGui;
+import dataStructures.*;
 /**
  *
  * @author santi
@@ -14,5 +15,9 @@ public class OS_project1 {
         System.out.println("Hello World!");
         MainGui mainGui = new MainGui();
         mainGui.setVisible(true);
+        
+        ProcessQueue pq = new ProcessQueue(StateProcess.READY);
+        System.out.println(pq.size());
+        
     }
 }
