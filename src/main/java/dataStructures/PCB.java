@@ -33,7 +33,10 @@ public class PCB {
     private int startTime;                  // Ciclo cuando entró al sistema
     private int completionTime;             // Ciclo cuando terminó
     private int cpuTimeUsed;                // Ciclos de CPU utilizados
-    
+
+    public StateProcess getState() {
+        return state;
+    }
     
     
 }

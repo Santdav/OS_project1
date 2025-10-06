@@ -5,11 +5,17 @@
 package Managers;
 import dataStructures.ProcessQueue;
 import dataStructures.StateProcess;
+import dataStructures.PCB;
 /**
  *
  * @author santi
+ * Manejador de colas, su trabajo principal es hacer de interface entre la logica
+ * de pasar un proceso de una cola a otra y el bajo nivel de trabajar con colas
  */
 public class QueuesManager {
+    /*
+    JDOC
+    */
     private final ProcessQueue newQueue;
     private final ProcessQueue readyQueue;
     private final ProcessQueue blockedQueue;
@@ -25,4 +31,62 @@ public class QueuesManager {
         this.suspendedBlockedQueue = new ProcessQueue(StateProcess.SUSPENDED_BLOCKED);
         this.exitQueue = new ProcessQueue(StateProcess.EXIT);
     }
+    
+    public void moveToSuspendedReady(PCB pcb){
+        if (pcb.getState()!=StateProcess.READY){
+            System.out.println("NOT VALID, not in ready State");
+        }
+    }
+    
+    public void moveToSuspendedBlocked(PCB pcb){
+        if (pcb.getState()!=StateProcess.BLOCKED){
+            System.out.println("NOT VALID, not in blocked State");
+        }
+    }
+    
+    public void moveToRunning(PCB pcb){
+        
+    }
+    
+    public void moveToReady(PCB pcb){
+        
+    }
+    
+    public void moveToExit(PCB pcb){
+        if (pcb.getState()!=StateProcess.RUNNING){
+            System.out.println("NOT VALID, not in running state");
+        }
+    }
+    
+    public void moveToBlocked(PCB pcb){
+        if (pcb.getState()!=StateProcess.RUNNING){
+            System.out.println("NOT VALID, not in running state");
+        }
+    }
+
+    public ProcessQueue getNewQueue() {
+        return newQueue;
+    }
+
+    public ProcessQueue getReadyQueue() {
+        return readyQueue;
+    }
+
+    public ProcessQueue getBlockedQueue() {
+        return blockedQueue;
+    }
+
+    public ProcessQueue getSuspendedReadyQueue() {
+        return suspendedReadyQueue;
+    }
+
+    public ProcessQueue getSuspendedBlockedQueue() {
+        return suspendedBlockedQueue;
+    }
+
+    public ProcessQueue getExitQueue() {
+        return exitQueue;
+    }
+    
+    
 }
