@@ -4,10 +4,16 @@
  */
 package Schedulers;
 
+import dataStructures.ProcessQueue;
+
 /**
  *
  * @author santi
  */
-public class SPN_Scheduler {
+public class SPN_Scheduler extends Scheduler{
+    @Override
+    public dataStructures.Process selectNextProcess(ProcessQueue readyQueue) {
+        throw new UnsupportedOperationException("Not supported yet."); 
+    }
     
 }

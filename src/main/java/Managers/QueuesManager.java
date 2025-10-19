@@ -22,6 +22,7 @@ public class QueuesManager {
     private final ProcessQueue suspendedReadyQueue;
     private final ProcessQueue suspendedBlockedQueue;
     private final ProcessQueue exitQueue;
+    private final ProcessQueue runningQueue;
     
     public QueuesManager() {
         this.newQueue = new ProcessQueue(StateProcess.NEW);
@@ -30,12 +31,142 @@ public class QueuesManager {
         this.suspendedReadyQueue = new ProcessQueue(StateProcess.SUSPENDED_READY);
         this.suspendedBlockedQueue = new ProcessQueue(StateProcess.SUSPENDED_BLOCKED);
         this.exitQueue = new ProcessQueue(StateProcess.EXIT);
+        this.runningQueue = new ProcessQueue(StateProcess.RUNNING);
     }
     
-    public void moveProcess(Process process, StateProcess from, StateProcess to){
-        //TODO
+    
+    public ProcessQueue getQueueForState(StateProcess state){
+        switch(state){
+            case NEW:
+                return this.newQueue;
+            case READY:
+                return this.readyQueue;
+            case BLOCKED:
+                return this.blockedQueue;
+            case SUSPENDED_READY:
+                return this.suspendedReadyQueue;
+            case SUSPENDED_BLOCKED:
+                return this.suspendedBlockedQueue;
+            case EXIT: 
+                return this.exitQueue;
+            case RUNNING:
+                return this.runningQueue;
+            default:
+                return this.newQueue;
+        }
+        
     }
-
+    
+    //======= Move Methods ===========
+    public void moveToReady(Process process){
+        StateProcess currentState = process.getState();
+        
+        switch (currentState){
+            case NEW, RUNNING, BLOCKED, SUSPENDED_READY:
+                getQueueForState(currentState).removeItem(process);
+                process.setState(StateProcess.READY);
+                this.readyQueue.enqueue(process);
+                return;
+            case READY:
+                return;
+            case EXIT,SUSPENDED_BLOCKED:
+                System.out.println(process.getState() + " cant move to READY");
+                System.out.println(process.toString());
+                return;
+        }
+    }
+    
+    public void moveToBlocked(Process process){
+        StateProcess currentState = process.getState();
+        
+        switch(currentState){
+            case BLOCKED:
+                return;
+            case RUNNING,SUSPENDED_BLOCKED:
+                getQueueForState(currentState).removeItem(process);
+                process.setState(StateProcess.BLOCKED);
+                this.blockedQueue.enqueue(process);
+                return;
+            case READY,NEW,EXIT,SUSPENDED_READY:
+                System.out.println(process.getState() + " cant move to BLOCKED");
+                System.out.println(process.toString());
+                return;
+        }
+    }
+    
+    public void moveToSuspendedReady(Process process){
+        StateProcess currentState = process.getState();
+        
+        switch (currentState) {
+            case SUSPENDED_READY:
+                return;
+            case SUSPENDED_BLOCKED,READY,RUNNING,NEW:
+                getQueueForState(currentState).removeItem(process);
+                process.setState(StateProcess.SUSPENDED_READY);
+                this.suspendedReadyQueue.enqueue(process);
+                return;
+            case BLOCKED,EXIT:
+                System.out.println(process.getState() + " cant move to SUSPENDED READY");
+                System.out.println(process.toString());
+                return;
+        }
+    }
+    
+    public void moveToSuspendedBlocked(Process process){
+        StateProcess currentState = process.getState();
+        
+        switch (currentState){
+            case SUSPENDED_BLOCKED:
+                return;
+            case BLOCKED:
+                getQueueForState(currentState).removeItem(process);
+                process.setState(StateProcess.SUSPENDED_BLOCKED);
+                this.suspendedBlockedQueue.enqueue(process);
+                return;
+            case NEW,READY,RUNNING,SUSPENDED_READY,EXIT:
+                System.out.println(process.getState() + " cant move to SUSPENDED BLOCKED");
+                System.out.println(process.toString());
+                return;
+        }
+    }
+    
+    public void moveToExit(Process process){
+        StateProcess currProcess = process.getState();
+        
+        switch (currProcess){
+            case EXIT:
+                return;
+            case NEW,BLOCKED,READY,SUSPENDED_BLOCKED,SUSPENDED_READY:
+                System.out.println(process.getState() + " cant move to EXIT");
+                System.out.println(process.toString());
+                return;
+            case RUNNING:
+                getQueueForState(currProcess).removeItem(process);
+                process.setState(StateProcess.EXIT);
+                this.exitQueue.enqueue(process);
+                return;
+        }
+    }
+    
+    public void moveToRunning(Process process){
+        StateProcess currentProcess = process.getState();
+        
+        switch (currentProcess){
+            case RUNNING:
+                return;
+            case READY:
+                getQueueForState(currentProcess).removeItem(process);
+                process.setState(StateProcess.RUNNING);
+                this.runningQueue.enqueue(process);
+            case BLOCKED, EXIT, NEW, SUSPENDED_BLOCKED, SUSPENDED_READY:
+                System.out.println(process.getState() + " cant move to RUNNING");
+                System.out.println(process.toString());
+                return;
+        }
+    }
+    
+    //========== Getters y Setters =========
+    
     public ProcessQueue getNewQueue() {
         return newQueue;
     }

@@ -31,7 +31,7 @@ public class Process {
     private int cpuTimeUsed;           // Ciclos de CPU utilizados
 
     // ===== CARACTERÍSTICAS DEL PROCESO =====
-    private ProcessType type;
+    private ProcessType type;           //IO_BOUND o CPU_BOUND
     private int totalInstructions;
     private int instructionsExecuted;     // Para saber progreso real
     private int arrivalTime;              // Para métricas de tiempo de espera
@@ -41,6 +41,57 @@ public class Process {
     private int memoryRequired;  
     
     
+    public Process(int id, String name, ProcessType type, int totalInstructions,
+                  int ioExceptionCycle, int ioCompletionCycle, int arrivalTime, 
+                  int priority, int memoryRequired) {
+        // ===== IDENTIFICACIÓN =====
+        this.id = id;      //ID dada por el IDGenerator
+        this.name = name;  //Dado por user input
+        
+        // ===== CARACTERÍSTICAS DEL PROCESO =====
+        this.type = type;
+        this.totalInstructions = totalInstructions;
+        this.priority = priority;
+        this.memoryRequired = memoryRequired;
+        
+        // ===== CONFIGURACIÓN DE E/S =====
+        this.ioExceptionCycle = ioExceptionCycle; //calculado a parte por la cantidad de instrucciones que tarda el IO
+        this.ioCompletionCycle = ioCompletionCycle;
+        
+        // ===== TIEMPOS Y ESTADO INICIAL =====
+        this.arrivalTime = arrivalTime;
+        this.state = StateProcess.NEW;
+        this.programCounter = 0;
+        this.MemoryAdressRegister = 0;
+        this.instructionsExecuted = 0;
+        this.cpuTimeUsed = 0;
+        this.waitingTime = 0;
+        this.ioRequestPending = false;
+        this.ioRemainingTime = 0;
+    }
+    
+    
+    // Para procesos CPU-Bound (sin E/S)
+    public static Process createCPUProcess(int id, String name, int totalInstructions, 
+                                          int arrivalTime) {
+        return new Process(id, name, ProcessType.CPU_BOUND, totalInstructions,
+                          0, 0, arrivalTime, 0, 1);
+    }
+
+    // Para procesos I/O-Bound (con E/S)
+    public static Process createIOProcess(int id, String name, int totalInstructions,
+                                         int ioExceptionCycle, int ioCompletionCycle,
+                                         int arrivalTime) {
+        return new Process(id, name, ProcessType.IO_BOUND, totalInstructions,
+                          ioExceptionCycle, ioCompletionCycle, arrivalTime, 0, 1);
+    }
+    
+    
+    public boolean isSuspended() {
+    return state == StateProcess.SUSPENDED_READY || 
+           state == StateProcess.SUSPENDED_BLOCKED;
+    }
+    
     public StateProcess getState() {
         return state;
     }
@@ -48,4 +99,11 @@ public class Process {
     public void setState(StateProcess state){
         this.state = state;
     }
+
+    @Override
+    public String toString() {
+        return "Process{" + "id=" + id + ", name=" + name + ", state=" + state + '}';
+    }
+    
+    
 }

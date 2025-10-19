@@ -4,10 +4,16 @@
  */
 package Schedulers;
 
+import dataStructures.ProcessQueue;
+
 /**
  *
  * @author santi
  */
-public class RoundRobinScheduler {
+public class RoundRobinScheduler extends Scheduler{
+    @Override
+    public dataStructures.Process selectNextProcess(ProcessQueue readyQueue) {
+        throw new UnsupportedOperationException("Not supported yet."); 
+    }
     
 }

@@ -17,9 +17,6 @@ public class OS_project1 {
         MainGui mainGui = new MainGui();
         mainGui.setVisible(true);
         
-        IdGenerator idGen = new IdGenerator();
-        System.out.println(IdGenerator.nextId());
-        System.out.println(IdGenerator.nextId());
-        System.out.println(IdGenerator.nextId());
+        
     }
 }

@@ -4,10 +4,15 @@
  */
 package Schedulers;
 
+import dataStructures.ProcessQueue;
+
 /**
  *
  * @author santi
  */
-public class SRT_Scheduler {
-    
+public class SRT_Scheduler extends Scheduler{
+    @Override
+    public dataStructures.Process selectNextProcess(ProcessQueue readyQueue) {
+        throw new UnsupportedOperationException("Not supported yet."); 
+    }
 }

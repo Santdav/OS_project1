@@ -4,10 +4,21 @@
  */
 package Schedulers;
 
+import dataStructures.Process;
+import dataStructures.ProcessQueue;
+
 /**
  *
  * @author santi
  */
-public class FCFS_Scheduler {
+public class FCFS_Scheduler extends Scheduler{
+
+    @Override
+    public Process selectNextProcess(ProcessQueue readyQueue) {
+        if (readyQueue.isEmpty()){
+            return null;
+        }
+        return readyQueue.dequeue();
+    }
     
 }

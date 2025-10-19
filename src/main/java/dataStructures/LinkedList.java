@@ -9,9 +9,11 @@ package dataStructures;
  * @author santi
  * @param <T>
  */
-public class LinkedList<T> {
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class LinkedList<T> implements Iterable<T> {
     
-    // Node class representing each element in the list
     private static class Node<T> {
         T data;
         Node<T> next;
@@ -31,7 +33,39 @@ public class LinkedList<T> {
         size = 0;
     }
     
-    // Add element at the beginning
+    // ==================== ITERABLE IMPLEMENTATION ====================
+    
+    @Override
+    public Iterator<T> iterator() {
+        return new LinkedListIterator();
+    }
+    
+    private class LinkedListIterator implements Iterator<T> {
+        private Node<T> current = head;
+        
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+        
+        @Override
+        public T next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            T data = current.data;
+            current = current.next;
+            return data;
+        }
+        
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException("Remove not supported");
+        }
+    }
+    
+    // ==================== MÉTODOS DE INSERCIÓN ====================
+    
     public void addFirst(T data) {
         Node<T> newNode = new Node<>(data);
         newNode.next = head;
@@ -39,7 +73,6 @@ public class LinkedList<T> {
         size++;
     }
     
-    // Add element at the end
     public void addLast(T data) {
         Node<T> newNode = new Node<>(data);
         
@@ -55,7 +88,76 @@ public class LinkedList<T> {
         size++;
     }
     
-    // Remove first element
+    public void add(int index, T data) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
+        
+        if (index == 0) {
+            addFirst(data);
+        } else if (index == size) {
+            addLast(data);
+        } else {
+            Node<T> newNode = new Node<>(data);
+            Node<T> current = head;
+            
+            for (int i = 0; i < index - 1; i++) {
+                current = current.next;
+            }
+            
+            newNode.next = current.next;
+            current.next = newNode;
+            size++;
+        }
+    }
+    
+    public boolean insertAfter(T target, T data) {
+        Node<T> current = head;
+        
+        while (current != null) {
+            if (current.data.equals(target)) {
+                Node<T> newNode = new Node<>(data);
+                newNode.next = current.next;
+                current.next = newNode;
+                size++;
+                return true;
+            }
+            current = current.next;
+        }
+        return false;
+    }
+    
+    public boolean insertBefore(T target, T data) {
+        if (head == null) {
+            return false;
+        }
+        
+        if (head.data.equals(target)) {
+            addFirst(data);
+            return true;
+        }
+        
+        Node<T> current = head;
+        
+        while (current.next != null) {
+            if (current.next.data.equals(target)) {
+                Node<T> newNode = new Node<>(data);
+                newNode.next = current.next;
+                current.next = newNode;
+                size++;
+                return true;
+            }
+            current = current.next;
+        }
+        return false;
+    }
+    
+    public void enqueue(T data) {
+        addLast(data);
+    }
+    
+    // ==================== MÉTODOS DE ELIMINACIÓN ====================
+    
     public T removeFirst() {
         if (head == null) {
             throw new IllegalStateException("List is empty");
@@ -67,7 +169,6 @@ public class LinkedList<T> {
         return data;
     }
     
-    // Remove last element
     public T removeLast() {
         if (head == null) {
             throw new IllegalStateException("List is empty");
@@ -88,7 +189,58 @@ public class LinkedList<T> {
         return data;
     }
     
-    // Check if list contains element
+    public T remove(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
+        
+        if (index == 0) {
+            return removeFirst();
+        }
+        
+        Node<T> current = head;
+        for (int i = 0; i < index - 1; i++) {
+            current = current.next;
+        }
+        
+        T data = current.next.data;
+        current.next = current.next.next;
+        size--;
+        return data;
+    }
+  
+    public T dequeue() {
+        return removeFirst();
+    }
+    
+    public boolean removeItem(T item) {
+    if (head == null) {
+        return false;
+    }
+    
+    // Special case: remove head
+    if (head.data.equals(item)) {
+        head = head.next;
+        size--;
+        return true;
+    }
+    
+    // Search for the node to remove
+    Node<T> current = head;
+    while (current.next != null) {
+        if (current.next.data.equals(item)) {
+            current.next = current.next.next;
+            size--;
+            return true;
+        }
+        current = current.next;
+    }
+    
+    return false;
+}
+    
+    // ==================== MÉTODOS DE CONSULTA ====================
+    
     public boolean contains(T data) {
         Node<T> current = head;
         while (current != null) {
@@ -100,7 +252,6 @@ public class LinkedList<T> {
         return false;
     }
     
-    // Get element at specific index
     public T get(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
@@ -113,17 +264,61 @@ public class LinkedList<T> {
         return current.data;
     }
     
-    // Get size of the list
+    public T set(int index, T data) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
+        
+        Node<T> current = head;
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+        
+        T oldData = current.data;
+        current.data = data;
+        return oldData;
+    }
+    
     public int size() {
         return size;
     }
     
-    // Check if list is empty
     public boolean isEmpty() {
         return head == null;
     }
     
-    // Print the list
+    public T peekHead() {
+    if (head == null) {
+        throw new IllegalStateException("Queue is empty");
+    }
+    return head.data;
+}
+    
+    public T peekLast() {
+        if (head == null) {
+            throw new IllegalStateException("Queue is empty");
+        }
+
+        Node<T> current = head;
+        while (current.next != null) {
+            current = current.next;
+        }
+        return current.data;
+    }
+    // ==================== MÉTODOS DE UTILIDAD ====================
+    
+    @SuppressWarnings("unchecked")
+    public T[] toArray() {
+        T[] array = (T[]) new Object[size];
+        Node<T> current = head;
+        int index = 0;
+        while (current != null) {
+            array[index++] = current.data;
+            current = current.next;
+        }
+        return array;
+    }
+    
     public void printList() {
         Node<T> current = head;
         while (current != null) {
@@ -133,9 +328,24 @@ public class LinkedList<T> {
         System.out.println("null");
     }
     
-    // Clear the list
     public void clear() {
         head = null;
         size = 0;
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        Node<T> current = head;
+        while (current != null) {
+            sb.append(current.data);
+            if (current.next != null) {
+                sb.append(", ");
+            }
+            current = current.next;
+        }
+        sb.append("]");
+        return sb.toString();
     }
 }
