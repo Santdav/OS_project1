@@ -8,7 +8,7 @@ package dataStructures;
  *
  * @author santi
  */
-public class ProcessQueue extends Queue<PCB> {
+public class ProcessQueue extends LinkedList<Process> {
     private StateProcess queueType;
 
     public ProcessQueue(StateProcess queueType) {

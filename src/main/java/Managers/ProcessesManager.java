@@ -4,7 +4,7 @@
  */
 package Managers;
 import dataStructures.LinkedList;
-import dataStructures.PCB;
+import dataStructures.Process;
 import Utils.IdGenerator;
 
 /**
@@ -12,7 +12,7 @@ import Utils.IdGenerator;
  * @author santi
  */
 public class ProcessesManager {
-    private LinkedList<PCB> processList;
+    private LinkedList<Process> processList;
     private QueuesManager queuesManager;
-    private IdGenerator idGenerator;
+    //private IdGenerator idGenerator; usar directamente la clase (es estatica)
 }

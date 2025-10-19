@@ -9,5 +9,22 @@ package Utils;
  * @author santi
  */
 public class IdGenerator {
+    private static long currentId = 0;
     
+    /**
+     * Generates a new unique ID
+     * @return a new unique long value
+     */
+    public static long nextId() {
+        return ++currentId;
+    }
+    
+    /**
+     * Gets the current ID without incrementing
+     * @return the current ID value
+     */
+    public static long getCurrentId() {
+        return currentId;
+    }
+
 }

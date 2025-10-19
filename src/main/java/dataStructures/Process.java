@@ -10,7 +10,7 @@ package dataStructures;
  *
  * @author santi
  */
-public class PCB {
+public class Process {
     //Process identification
     private int id;
     private String name;    

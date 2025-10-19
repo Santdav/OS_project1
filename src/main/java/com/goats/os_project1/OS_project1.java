@@ -4,6 +4,7 @@
 
 package com.goats.os_project1;
 import GuiElements.MainGui;
+import Utils.IdGenerator;
 import dataStructures.*;
 /**
  *
@@ -16,8 +17,9 @@ public class OS_project1 {
         MainGui mainGui = new MainGui();
         mainGui.setVisible(true);
         
-        ProcessQueue pq = new ProcessQueue(StateProcess.READY);
-        System.out.println(pq.size());
-        
+        IdGenerator idGen = new IdGenerator();
+        System.out.println(IdGenerator.nextId());
+        System.out.println(IdGenerator.nextId());
+        System.out.println(IdGenerator.nextId());
     }
 }
