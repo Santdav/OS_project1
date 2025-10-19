@@ -4,6 +4,8 @@
  */
 package dataStructures;
 
+import dataStructures.Enums.StateProcess;
+
 /**
  *
  * @author santi

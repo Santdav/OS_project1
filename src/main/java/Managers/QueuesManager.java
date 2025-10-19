@@ -4,7 +4,7 @@
  */
 package Managers;
 import dataStructures.ProcessQueue;
-import dataStructures.StateProcess;
+import dataStructures.Enums.StateProcess;
 import dataStructures.Process;
 /**
  *
@@ -32,36 +32,8 @@ public class QueuesManager {
         this.exitQueue = new ProcessQueue(StateProcess.EXIT);
     }
     
-    public void moveToSuspendedReady(Process pcb){
-        if (pcb.getState()!=StateProcess.READY){
-            System.out.println("NOT VALID, not in ready State");
-        }
-    }
-    
-    public void moveToSuspendedBlocked(Process pcb){
-        if (pcb.getState()!=StateProcess.BLOCKED){
-            System.out.println("NOT VALID, not in blocked State");
-        }
-    }
-    
-    public void moveToRunning(Process pcb){
-        
-    }
-    
-    public void moveToReady(Process pcb){
-        
-    }
-    
-    public void moveToExit(Process pcb){
-        if (pcb.getState()!=StateProcess.RUNNING){
-            System.out.println("NOT VALID, not in running state");
-        }
-    }
-    
-    public void moveToBlocked(Process pcb){
-        if (pcb.getState()!=StateProcess.RUNNING){
-            System.out.println("NOT VALID, not in running state");
-        }
+    public void moveProcess(Process process, StateProcess from, StateProcess to){
+        //TODO
     }
 
     public ProcessQueue getNewQueue() {
