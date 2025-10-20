@@ -5,6 +5,7 @@
 package Schedulers;
 
 import dataStructures.ProcessQueue;
+import dataStructures.Process;
 
 /**
  *
@@ -12,7 +13,13 @@ import dataStructures.ProcessQueue;
  */
 public class FeedbackScheduler extends Scheduler{
     @Override
-    public dataStructures.Process selectNextProcess(ProcessQueue readyQueue) {
-        throw new UnsupportedOperationException("Not supported yet."); 
+    public Process selectNextProcess(ProcessQueue readyQueue, Process currentRunning) {
+        if (currentRunning != null) return currentRunning;
+        return readyQueue.isEmpty() ? null : readyQueue.dequeue();
+    }
+
+    @Override
+    public String getName() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

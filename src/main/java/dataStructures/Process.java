@@ -104,6 +104,23 @@ public class Process {
     public String toString() {
         return "Process{" + "id=" + id + ", name=" + name + ", state=" + state + '}';
     }
+
+    public int getTotalInstructions() {
+        return totalInstructions;
+    }
+
+    public int getInstructionsExecuted() {
+        return instructionsExecuted;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getWaitingTime() {
+        return waitingTime;
+    }
+    
     
     
 }

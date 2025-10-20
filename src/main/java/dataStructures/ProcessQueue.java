@@ -17,4 +17,5 @@ public class ProcessQueue extends LinkedList<Process> {
         this.queueType = queueType;
     }
     
+    
 }

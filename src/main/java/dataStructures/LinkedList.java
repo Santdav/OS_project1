@@ -305,7 +305,23 @@ public class LinkedList<T> implements Iterable<T> {
         }
         return current.data;
     }
-    // ==================== MÉTODOS DE UTILIDAD ====================
+    
+    public T getNext(T currentElement) {
+    if (currentElement == null) {
+        return null;
+    }
+    
+    Node<T> current = head;
+    while (current != null && current.next != null) {
+        if (current.data.equals(currentElement)) {
+            return current.next.data;
+        }
+        current = current.next;
+    }
+    return null; // Element not found or no next element
+}
+    
+// ==================== MÉTODOS DE UTILIDAD ====================
     
     @SuppressWarnings("unchecked")
     public T[] toArray() {
@@ -348,4 +364,10 @@ public class LinkedList<T> implements Iterable<T> {
         sb.append("]");
         return sb.toString();
     }
+
+    public T getHead() {
+        return head.data;
+    }
+    
+    
 }

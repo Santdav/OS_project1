@@ -22,7 +22,7 @@ public class QueuesManager {
     private final ProcessQueue suspendedReadyQueue;
     private final ProcessQueue suspendedBlockedQueue;
     private final ProcessQueue exitQueue;
-    private final ProcessQueue runningQueue;
+    private Process runningProcess;
     
     public QueuesManager() {
         this.newQueue = new ProcessQueue(StateProcess.NEW);
@@ -31,9 +31,8 @@ public class QueuesManager {
         this.suspendedReadyQueue = new ProcessQueue(StateProcess.SUSPENDED_READY);
         this.suspendedBlockedQueue = new ProcessQueue(StateProcess.SUSPENDED_BLOCKED);
         this.exitQueue = new ProcessQueue(StateProcess.EXIT);
-        this.runningQueue = new ProcessQueue(StateProcess.RUNNING);
+        this.runningProcess = null;
     }
-    
     
     public ProcessQueue getQueueForState(StateProcess state){
         switch(state){
@@ -49,8 +48,6 @@ public class QueuesManager {
                 return this.suspendedBlockedQueue;
             case EXIT: 
                 return this.exitQueue;
-            case RUNNING:
-                return this.runningQueue;
             default:
                 return this.newQueue;
         }
@@ -149,15 +146,18 @@ public class QueuesManager {
     }
     
     public void moveToRunning(Process process){
-        StateProcess currentProcess = process.getState();
+        StateProcess currentState = process.getState();
         
-        switch (currentProcess){
+        switch (currentState){
             case RUNNING:
                 return;
             case READY:
-                getQueueForState(currentProcess).removeItem(process);
+                getQueueForState(currentState).removeItem(process);
+                Process oldRunning = this.runningProcess;
                 process.setState(StateProcess.RUNNING);
-                this.runningQueue.enqueue(process);
+                this.runningProcess = process;
+                oldRunning.setState(StateProcess.READY);
+                this.readyQueue.enqueue(oldRunning);
             case BLOCKED, EXIT, NEW, SUSPENDED_BLOCKED, SUSPENDED_READY:
                 System.out.println(process.getState() + " cant move to RUNNING");
                 System.out.println(process.toString());
@@ -190,6 +190,13 @@ public class QueuesManager {
     public ProcessQueue getExitQueue() {
         return exitQueue;
     }
-    
+
+    public Process getRunningProcess() {
+        return runningProcess;
+    }
+
+    public void setRunningProcess(Process runningProcess) {
+        this.runningProcess = runningProcess;
+    }
     
 }

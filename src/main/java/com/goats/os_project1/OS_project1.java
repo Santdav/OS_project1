@@ -5,7 +5,7 @@
 package com.goats.os_project1;
 import GuiElements.MainGui;
 import Utils.IdGenerator;
-import dataStructures.*;
+import dataStructures.LinkedList;
 /**
  *
  * @author santi

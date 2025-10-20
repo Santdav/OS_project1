@@ -14,11 +14,15 @@ import dataStructures.ProcessQueue;
 public class FCFS_Scheduler extends Scheduler{
 
     @Override
-    public Process selectNextProcess(ProcessQueue readyQueue) {
-        if (readyQueue.isEmpty()){
-            return null;
-        }
-        return readyQueue.dequeue();
+    public Process selectNextProcess(ProcessQueue readyQueue, Process currentRunning) {
+        if (currentRunning != null) return currentRunning;
+        return readyQueue.isEmpty() ? null : readyQueue.dequeue();
     }
+
+    @Override
+    public String getName() {
+        return "(First-Come, First-Served (FCFS)";
+    }
+    
     
 }
