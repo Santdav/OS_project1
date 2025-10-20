@@ -11,7 +11,7 @@ import dataStructures.Process;
  *
  * @author santi
  */
-public class RoundRobinScheduler extends Scheduler{
+class RoundRobinScheduler extends Scheduler{
     
     private final int quantum;
     private int currentQuantum;

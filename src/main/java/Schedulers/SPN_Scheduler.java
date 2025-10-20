@@ -11,7 +11,7 @@ import dataStructures.Process;
  *
  * @author santi
  */
-public class SPN_Scheduler extends Scheduler{
+class SPN_Scheduler extends Scheduler{
     
     @Override
     public Process selectNextProcess(ProcessQueue readyQueue, Process currentRunning) {

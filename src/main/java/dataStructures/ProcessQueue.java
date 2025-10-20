@@ -16,6 +16,10 @@ public class ProcessQueue extends LinkedList<Process> {
     public ProcessQueue(StateProcess queueType) {
         this.queueType = queueType;
     }
+
+    public ProcessQueue() {
+    }
+    
     
     
 }

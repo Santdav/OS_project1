@@ -11,7 +11,7 @@ import dataStructures.ProcessQueue;
  *
  * @author santi
  */
-public class FCFS_Scheduler extends Scheduler{
+class FCFS_Scheduler extends Scheduler{
 
     @Override
     public Process selectNextProcess(ProcessQueue readyQueue, Process currentRunning) {

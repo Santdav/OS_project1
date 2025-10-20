@@ -10,7 +10,7 @@ import dataStructures.Process;
  *
  * @author santi
  */
-public class SRT_Scheduler extends Scheduler{
+class SRT_Scheduler extends Scheduler{
     
     private Process selectedProcess;
     

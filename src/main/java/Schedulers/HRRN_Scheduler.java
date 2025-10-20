@@ -10,7 +10,7 @@ import dataStructures.Process;
  *
  * @author santi
  */
-public class HRRN_Scheduler extends Scheduler {
+class HRRN_Scheduler extends Scheduler {
     
     @Override
     public Process selectNextProcess(ProcessQueue readyQueue, Process currentRunning) {
