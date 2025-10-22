@@ -33,8 +33,8 @@ public class ProcessThread implements Runnable{
     }
     @Override
     public void run() {
-        readyQueueLock.acquire();
-        readyQueue.enqueue(this.PCB);
+       // readyQueueLock.acquire();
+       // readyQueue.enqueue(this.PCB);
         readyQueueLock.release();
     }
     
