@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package dataStructures.Enums;
+import dataStructures.Process;
 import dataStructures.ProcessQueue;
 import java.util.concurrent.Semaphore;
 
@@ -33,9 +34,13 @@ public class ProcessThread implements Runnable{
     }
     @Override
     public void run() {
-       // readyQueueLock.acquire();
-       // readyQueue.enqueue(this.PCB);
-        readyQueueLock.release();
+        try {
+            readyQueueLock.acquire();
+        } catch (InterruptedException ex) {
+            System.getLogger(ProcessThread.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+       readyQueue.enqueue(this.PCB);
+       readyQueueLock.release();
     }
     
 }
