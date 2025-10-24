@@ -119,7 +119,7 @@ public class Process {
         this.state = state;
     }
 
-    public void increasePc(){
+    public void increasePCandMAR(){
         this.programCounter++;
         this.MemoryAdressRegister++;
     }

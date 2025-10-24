@@ -7,8 +7,6 @@ import dataStructures.LinkedList;
 import dataStructures.Process;
 import dataStructures.Enums.StateProcess;
 import Utils.IdGenerator;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  *
@@ -27,7 +25,7 @@ public class ProcessesManager {
     public void checkEventCompletion(){
         LinkedList<Process> blockedProcesses = queuesManager.getBlockedQueue();
         LinkedList<Process> finalizedEventProcesses = new 
-        LinkedList<Process>(); // Dos listas por la posibilidad de tener dos 
+        LinkedList<>(); // Dos listas por la posibilidad de tener dos 
         // procesos que finalizan su evento en el mismo ciclo.
         for (Process blockedProcess : blockedProcesses){
             blockedProcess.decreaseWaitingTime();
@@ -61,7 +59,7 @@ public class ProcessesManager {
     public void executeCurrentProcess(){
         Process runningProcess = queuesManager.getRunningProcess();
         if (runningProcess == null) return;
-        runningProcess.increasePc();
+        runningProcess.increasePCandMAR();
         
         if (runningProcess.getProgramCounter() >= 
             runningProcess.getTotalInstructions()) {
@@ -79,8 +77,6 @@ public class ProcessesManager {
             System.out.println("Not new Process cant add here");
             return;
         }
-    
-        
         this.allProcesses.addLast(process);
         //this.queuesManager.addToNewQueue();
     }

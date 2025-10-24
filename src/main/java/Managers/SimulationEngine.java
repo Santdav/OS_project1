@@ -24,13 +24,24 @@ public class SimulationEngine implements Runnable{
         this.cycleDuration = 1000;
     }
     
+    /**
+     * El hilo de ejecucion para el simulador.
+     */
     @Override
     public void run() {
-        while (isRunning){
-            currentCycle++;
-            
-            
+        this.isRunning = true;
+        try {
+            while (isRunning){
+                currentCycle++;
+                processManager.checkEventCompletion();
+                processManager.executeCurrentProcess();
+                Thread.sleep(cycleDuration); // El sleep hace que se cumpla la duracion de ciclo designada por el usuario.
+            }       // Se rodea con un try catch por si, por ejemplo, se cierra la aplicacion durante este sleep.
+        } catch (InterruptedException ex) {
+                System.err.println("The simulation has been interrupted.");
+                this.isRunning = false;
         }
+            
+            
     }
-
 }
