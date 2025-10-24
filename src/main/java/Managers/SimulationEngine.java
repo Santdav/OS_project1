@@ -10,14 +10,27 @@ import Schedulers.Scheduler;
  *
  * @author santi
  */
-public class SimulationEngine {
+public class SimulationEngine implements Runnable{
     private final ProcessesManager processManager;
     private Scheduler currentScheduler;
-    private boolean isRunning = false;
+    private boolean isRunning;
+    private long currentCycle;
+    private volatile int cycleDuration; // En milisegundos (ms)
 
     public SimulationEngine(ProcessesManager processManager, Scheduler currentScheduler) {
         this.processManager = processManager;
         this.currentScheduler = currentScheduler;
+        this.currentCycle = 0;
+        this.cycleDuration = 1000;
+    }
+    
+    @Override
+    public void run() {
+        while (isRunning){
+            currentCycle++;
+            
+            
+        }
     }
 
 }

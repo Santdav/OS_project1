@@ -95,11 +95,24 @@ public class Process {
     public StateProcess getState() {
         return state;
     }
+
+    public int getIoRemainingTime() {
+        return ioRemainingTime;
+    }
     
     public void setState(StateProcess state){
         this.state = state;
     }
 
+    public void increasePc(){
+        this.programCounter++;
+        this.MemoryAdressRegister++;
+    }
+    
+    public void decreaseWaitingTime() {
+        this.ioRemainingTime--;
+    }
+    
     @Override
     public String toString() {
         return "Process{" + "id=" + id + ", name=" + name + ", state=" + state + '}';
