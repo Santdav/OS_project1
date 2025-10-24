@@ -7,6 +7,8 @@ import dataStructures.LinkedList;
 import dataStructures.Process;
 import dataStructures.Enums.StateProcess;
 import Utils.IdGenerator;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
@@ -36,16 +38,46 @@ public class ProcessesManager {
         }
         for (Process unblockedProcess : finalizedEventProcesses) {
             unblockedProcess.setState(StateProcess.READY);
-        }
+            queuesManager.moveToBlocked(unblockedProcess);
+        }      
+    }
     
+    public void terminateProcess(Process process){
+        process.setState(StateProcess.EXIT);
+        queuesManager.moveToExit(process);
+        queuesManager.setRunningProcess(null);
+    }
+    
+    public void manageException(Process process) {
+        process.setState(StateProcess.BLOCKED);
+        process.setIoRemainingTime(process.getIoCompletionCycle());
+        process.setIoRequestPending(true);
+        queuesManager.moveToBlocked(process);
+        queuesManager.setRunningProcess(null);
+    }
         
+        
+    
+    public void executeCurrentProcess(){
+        Process runningProcess = queuesManager.getRunningProcess();
+        if (runningProcess == null) return;
+        runningProcess.increasePc();
+        
+        if (runningProcess.getProgramCounter() >= 
+            runningProcess.getTotalInstructions()) {
+            terminateProcess(runningProcess);
+            return;
             
+        }
+        if (runningProcess.isIoBound() && (runningProcess.getProgramCounter() % runningProcess.getIoExceptionCycle()) == 0){
+            manageException(runningProcess);
+        }
     }
     
     public void addNewProcess(Process process){
         if (process.getState()!=StateProcess.NEW){
             System.out.println("Not new Process cant add here");
-            return ;
+            return;
         }
     
         

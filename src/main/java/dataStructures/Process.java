@@ -86,6 +86,9 @@ public class Process {
                           ioExceptionCycle, ioCompletionCycle, arrivalTime, 0, 1);
     }
     
+    public boolean isIoBound() {
+    return type == ProcessType.IO_BOUND;
+    }
     
     public boolean isSuspended() {
     return state == StateProcess.SUSPENDED_READY || 
@@ -98,6 +101,18 @@ public class Process {
 
     public int getIoRemainingTime() {
         return ioRemainingTime;
+    }
+
+    public int getProgramCounter() {
+        return programCounter;
+    }
+
+    public int getIoExceptionCycle() {
+        return ioExceptionCycle;
+    }
+
+    public int getIoCompletionCycle() {
+        return ioCompletionCycle;
     }
     
     public void setState(StateProcess state){
@@ -112,6 +127,16 @@ public class Process {
     public void decreaseWaitingTime() {
         this.ioRemainingTime--;
     }
+
+    public void setIoRequestPending(boolean ioRequestPending) {
+        this.ioRequestPending = ioRequestPending;
+    }
+
+    public void setIoRemainingTime(int ioRemainingTime) {
+        this.ioRemainingTime = ioRemainingTime;
+    }
+    
+    
     
     @Override
     public String toString() {
