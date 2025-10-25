@@ -55,6 +55,11 @@ public class QueuesManager {
     }
     
     //======= Move Methods ===========
+    
+    public void addToNew(Process process){
+        this.newQueue.enqueue(process);
+    }
+    
     public void moveToReady(Process process){
         StateProcess currentState = process.getState();
         

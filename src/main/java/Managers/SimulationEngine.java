@@ -23,6 +23,10 @@ public class SimulationEngine implements Runnable{
         this.currentCycle = 0;
         this.cycleDuration = 1000;
     }
+
+    public long getCurrentCycle() {
+        return currentCycle;
+    }
     
     /**
      * El hilo de ejecucion para el simulador.

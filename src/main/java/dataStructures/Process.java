@@ -4,6 +4,7 @@
  */
 package dataStructures;
 
+import Utils.IdGenerator;
 import dataStructures.Enums.ProcessType;
 import dataStructures.Enums.StateProcess;
 
@@ -15,7 +16,7 @@ import dataStructures.Enums.StateProcess;
  */
 public class Process {
     // ===== IDENTIFICACIÓN DEL PROCESO (PCB) =====
-    private int id;
+    private long id;
     private String name;  
     // ===== INFORMACIÓN DE ESTADO (PCB) =====
     private StateProcess state;
@@ -34,15 +35,15 @@ public class Process {
     private ProcessType type;           //IO_BOUND o CPU_BOUND
     private int totalInstructions;
     private int instructionsExecuted;     // Para saber progreso real
-    private int arrivalTime;              // Para métricas de tiempo de espera
+    private long arrivalTime;              // Para métricas de tiempo de espera
     private int waitingTime;              // Para calcular eficiencia
     private boolean ioRequestPending;     // Para saber si está en E/S
     private int ioRemainingTime;          // Para contar down de E/S
     private int memoryRequired;  
     
     
-    public Process(int id, String name, ProcessType type, int totalInstructions,
-                  int ioExceptionCycle, int ioCompletionCycle, int arrivalTime, 
+    public Process(long id, String name, ProcessType type, int totalInstructions,
+                  int ioExceptionCycle, int ioCompletionCycle, long arrivalTime, 
                   int priority, int memoryRequired) {
         // ===== IDENTIFICACIÓN =====
         this.id = id;      //ID dada por el IDGenerator
@@ -72,17 +73,19 @@ public class Process {
     
     
     // Para procesos CPU-Bound (sin E/S)
-    public static Process createCPUProcess(int id, String name, int totalInstructions, 
-                                          int arrivalTime) {
-        return new Process(id, name, ProcessType.CPU_BOUND, totalInstructions,
+    public static Process createCPUProcess(String name, int totalInstructions, 
+                                          long arrivalTime) {
+        long newId = IdGenerator.nextId();
+        return new Process(newId, name, ProcessType.CPU_BOUND, totalInstructions,
                           0, 0, arrivalTime, 0, 1);
     }
 
     // Para procesos I/O-Bound (con E/S)
-    public static Process createIOProcess(int id, String name, int totalInstructions,
+    public static Process createIOProcess(String name, int totalInstructions,
                                          int ioExceptionCycle, int ioCompletionCycle,
-                                         int arrivalTime) {
-        return new Process(id, name, ProcessType.IO_BOUND, totalInstructions,
+                                         long arrivalTime) {
+        long newId = IdGenerator.nextId();
+        return new Process(newId, name, ProcessType.IO_BOUND, totalInstructions,
                           ioExceptionCycle, ioCompletionCycle, arrivalTime, 0, 1);
     }
     
@@ -151,7 +154,7 @@ public class Process {
         return instructionsExecuted;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

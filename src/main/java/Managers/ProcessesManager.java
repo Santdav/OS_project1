@@ -36,7 +36,7 @@ public class ProcessesManager {
         }
         for (Process unblockedProcess : finalizedEventProcesses) {
             unblockedProcess.setState(StateProcess.READY);
-            queuesManager.moveToBlocked(unblockedProcess);
+            queuesManager.moveToReady(unblockedProcess);
         }      
     }
     
@@ -78,6 +78,6 @@ public class ProcessesManager {
             return;
         }
         this.allProcesses.addLast(process);
-        //this.queuesManager.addToNewQueue();
+        this.queuesManager.addToNew(process);
     }
 }
