@@ -3,9 +3,12 @@
  */
 
 package com.goats.os_project1;
+
 import GuiElements.MainGui;
-import Utils.IdGenerator;
-import dataStructures.LinkedList;
+import Managers.ProcessesManager;
+import Managers.SimulationEngine;
+import Schedulers.Scheduler;
+import Schedulers.SchedulerFactory;
 /**
  *
  * @author santi
@@ -13,10 +16,13 @@ import dataStructures.LinkedList;
 public class OS_project1 {
     
     public static void main(String[] args) {
-        System.out.println("Hello World!");
-        MainGui mainGui = new MainGui();
-        mainGui.setVisible(true);
         
+        System.out.println("Hello World!");
+        ProcessesManager manager = new ProcessesManager();
+        Scheduler scheduler = SchedulerFactory.createScheduler("FCFS");
+        SimulationEngine engine = new SimulationEngine(manager, scheduler);
+        java.awt.EventQueue.invokeLater(() -> {
+                        new MainGui(manager, engine).setVisible(true);});
         
     }
 }

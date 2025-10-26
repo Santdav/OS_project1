@@ -15,6 +15,9 @@ import dataStructures.Process;
 public class MainGui extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainGui.class.getName());
+    private SimulationEngine simulationEngine;
+    private ProcessesManager processesManager;
+    
     
     /**
      * Activa los spinners correspondientes a las excepciones IO
@@ -29,9 +32,13 @@ public class MainGui extends javax.swing.JFrame {
     
     /**
      * Creates new form MainGui
+     * @param manager Instancia de ProcessesManager que manejar procesos.
+     * @param engine Instancia de SimulationEngine para obtener el ciclo actual.
      */
-    public MainGui() {
+    public MainGui(ProcessesManager manager, SimulationEngine engine) {
         initComponents();
+        this.processesManager = manager;
+        this.simulationEngine = engine;
     }
     
 
@@ -425,12 +432,13 @@ public class MainGui extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
+        Process newProcess = null;
         String processName = jTextField1.getText().trim();
         int processInstructionLength = (int) jSpinner1.getValue();
         boolean isIoBound = "I/O Bound".equals(jComboBox1.getSelectedItem());
         int cyclesUntilException = 0;
         int cyclesAfterException = 0;
-
+        long arrivalTime = this.simulationEngine.getCurrentCycle();
         if (processName.isEmpty() || processInstructionLength <= 0) {
             JOptionPane.showMessageDialog(this, "El proceso debe tener nombre"
                     + " y longitud de instrucciones mayor a 0.", "Error", 
@@ -449,13 +457,18 @@ public class MainGui extends javax.swing.JFrame {
                 return;
             }
         
-            Process newProcess = Process.createIOProcess(processName, 
+            newProcess = Process.createIOProcess(processName, 
                     processInstructionLength, cyclesUntilException,
-                    cyclesAfterException, PROPERTIES);
+                    cyclesAfterException, arrivalTime);
             
         } else {
-        
+            newProcess = Process.createCPUProcess(processName, 
+                    processInstructionLength, arrivalTime);
+            
+        } if (newProcess != null) {
+            this.processesManager.addNewProcess(newProcess);
         }
+        
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -500,7 +513,7 @@ public class MainGui extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new MainGui().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new MainGui(manager, engine).setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
