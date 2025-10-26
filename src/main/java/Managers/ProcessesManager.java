@@ -15,13 +15,11 @@ import Utils.IdGenerator;
 public class ProcessesManager {
     private LinkedList<Process> allProcesses;
     public QueuesManager queuesManager;
-    private Process runningProcess;
     //private IdGenerator idGenerator; usar directamente la clase (es estatica)
 
     public ProcessesManager() {
         this.allProcesses = new LinkedList<Process>();
         this.queuesManager = new QueuesManager();
-        this.runningProcess = null;
     }
     
     public synchronized void checkEventCompletion(){
@@ -94,7 +92,7 @@ public class ProcessesManager {
     }
 
     public synchronized Process getRunningProcess() {
-        return runningProcess;
+        return this.queuesManager.getRunningProcess();
     }
 
     public synchronized QueuesManager getQueuesManager() {

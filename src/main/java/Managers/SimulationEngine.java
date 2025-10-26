@@ -68,7 +68,10 @@ public class SimulationEngine implements Runnable {
                 }
                 processManager.executeCurrentProcess(); //4. 
                 if (this.mainGui != null) {
+                    javax.swing.SwingUtilities.invokeLater(() -> {
                     this.mainGui.updateQueueDisplay();
+                    });
+    
                 }
                 
                 
