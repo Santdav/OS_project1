@@ -41,7 +41,7 @@ class HRRN_Scheduler extends Scheduler {
 
     @Override
     public String getName() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "Highest Response Ratio Next";
     }
     
 }
