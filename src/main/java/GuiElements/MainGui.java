@@ -8,6 +8,7 @@ import Managers.ProcessesManager;
 import Managers.SimulationEngine;
 import javax.swing.JOptionPane;
 import dataStructures.Process;
+import Schedulers.SchedulerFactory;
 /**
  *
  * @author santi
@@ -454,7 +455,9 @@ public class MainGui extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        String shcedulerName = (String) jComboBox2.getSelectedItem();
+        System.out.println(shcedulerName);
+        simulationEngine.setCurrentScheduler(SchedulerFactory.createScheduler(shcedulerName));
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
@@ -515,7 +518,7 @@ public class MainGui extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        simulationEngine.setCycleDuration((int) jSpinner4.getValue());
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**

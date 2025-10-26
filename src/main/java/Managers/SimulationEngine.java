@@ -72,4 +72,8 @@ public class SimulationEngine implements Runnable {
         this.cycleDuration = cycleDuration;
     }
 
+    public void setCurrentScheduler(Scheduler currentScheduler) {
+        this.currentScheduler = currentScheduler;
+    }
+
 }
