@@ -20,8 +20,13 @@ public class OS_project1 {
         ProcessesManager manager = new ProcessesManager();
         Scheduler scheduler = SchedulerFactory.createScheduler("FCFS");
         SimulationEngine engine = new SimulationEngine(manager, scheduler);
+        Thread simulationThread = new Thread(engine);
+        simulationThread.start();
         java.awt.EventQueue.invokeLater(() -> {
-                        new MainGui(manager, engine).setVisible(true);});
+            MainGui gui = new MainGui(manager, engine);
+            engine.setMainGui(gui);
+            gui.setVisible(true);
+        });
         
     }
 }

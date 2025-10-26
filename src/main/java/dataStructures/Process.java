@@ -158,6 +158,10 @@ public class Process {
         return id;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public int getWaitingTime() {
         return waitingTime;
     }

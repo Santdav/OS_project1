@@ -4,6 +4,7 @@
  */
 package Managers;
 
+import GuiElements.MainGui;
 import Schedulers.Scheduler;
 import dataStructures.Process;
 
@@ -18,12 +19,18 @@ public class SimulationEngine implements Runnable {
     private boolean isRunning;
     private long currentCycle;
     private volatile int cycleDuration; // En milisegundos (ms)
+    private MainGui mainGui;
 
     public SimulationEngine(ProcessesManager processManager, Scheduler currentScheduler) {
         this.processManager = processManager;
         this.currentScheduler = currentScheduler;
         this.currentCycle = 0;
         this.cycleDuration = 1000;
+        this.mainGui = null;
+    }
+    
+    public void setMainGui(MainGui gui) {
+        this.mainGui = gui;
     }
 
     public long getCurrentCycle() {
@@ -37,29 +44,32 @@ public class SimulationEngine implements Runnable {
     public void run() {
         /*
         EJECUCION POR CICLO
-        1. incrementar el reloj CHECK    YES
-        2.Actualizar colas               YES
-        3. Ejecutar proceso actual       YES
-        4. Consultar Scheduler
+        1. incrementar el reloj CHECK    
+        2. Actualizar colas              
+        3. Consultar Scheduler           
+        4. Ejecutar proceso actual 
         5. Preemtion (si aplica)
         6. Nueva asignacion a running
         7. UI
          */
-        this.isRunning = true;
-        Process runningProcess = this.processManager.getRunningProcess();
-        
+        this.isRunning = true;        
         try {
             while (isRunning) {
-                currentCycle++; //1.
-                processManager.checkEventCompletion(); //2.
-                processManager.executeCurrentProcess(); //3. 
-
-                Thread.sleep(cycleDuration); // El sleep hace que se cumpla la duracion de ciclo designada por el usuario.
                 
+                currentCycle++; //1.
+                processManager.admitNewProcess();
+                processManager.checkEventCompletion(); //2.
+                Process runningProcess = this.processManager.getRunningProcess();
+
                 //Proceso escogido por el chdules es distointo al actual y debe de haber preemtion entonces cambia el proceso
                 if (currentScheduler.selectNextProcess(this.processManager.queuesManager.getReadyQueue(), runningProcess) != runningProcess || currentScheduler.shouldPreempt(runningProcess)) {
                     this.processManager.queuesManager.moveToRunning(currentScheduler.selectNextProcess(this.processManager.queuesManager.getReadyQueue(), runningProcess));
                 }
+                processManager.executeCurrentProcess(); //4. 
+                if (this.mainGui != null) {
+                    this.mainGui.updateQueueDisplay();
+                }
+                Thread.sleep(cycleDuration); // El sleep hace que se cumpla la duracion de ciclo designada por el usuario.
             }       // Se rodea con un try catch por si, por ejemplo, se cierra la aplicacion durante este sleep.
 
         } catch (InterruptedException ex) {

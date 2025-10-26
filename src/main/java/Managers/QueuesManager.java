@@ -161,9 +161,12 @@ public class QueuesManager {
                 Process oldRunning = this.runningProcess;
                 process.setState(StateProcess.RUNNING);
                 this.runningProcess = process;
-                oldRunning.setState(StateProcess.READY);
-                this.readyQueue.enqueue(oldRunning);
-            case BLOCKED, EXIT, NEW, SUSPENDED_BLOCKED, SUSPENDED_READY:
+                if (oldRunning != null) {
+                    oldRunning.setState(StateProcess.READY);
+                    this.readyQueue.enqueue(oldRunning);
+                }
+                return;
+            default:
                 System.out.println(process.getState() + " cant move to RUNNING");
                 System.out.println(process.toString());
                 return;

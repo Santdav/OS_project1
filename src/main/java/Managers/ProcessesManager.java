@@ -81,11 +81,27 @@ public class ProcessesManager {
         }
         this.allProcesses.addLast(process);
         this.queuesManager.addToNew(process);
+        
+    }
+    
+    public void admitNewProcess() {
+
+        LinkedList<Process> newQueue = queuesManager.getNewQueue();
+        while (!newQueue.isEmpty()) {
+            Process processToAdmit = newQueue.dequeue();
+            queuesManager.moveToReady(processToAdmit);
+        }
     }
 
     public Process getRunningProcess() {
         return runningProcess;
     }
+
+    public QueuesManager getQueuesManager() {
+        return queuesManager;
+    }
+    
+    
     
     
 }
