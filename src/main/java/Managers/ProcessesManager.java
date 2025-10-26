@@ -24,7 +24,7 @@ public class ProcessesManager {
         this.runningProcess = null;
     }
     
-    public void checkEventCompletion(){
+    public synchronized void checkEventCompletion(){
         LinkedList<Process> blockedProcesses = queuesManager.getBlockedQueue();
         LinkedList<Process> finalizedEventProcesses = new 
         LinkedList<>(); // Dos listas por la posibilidad de tener dos 
@@ -42,13 +42,13 @@ public class ProcessesManager {
         }      
     }
     
-    public void terminateProcess(Process process){
+    public synchronized void terminateProcess(Process process){
         process.setState(StateProcess.EXIT);
         queuesManager.moveToExit(process);
         queuesManager.setRunningProcess(null);
     }
     
-    public void manageException(Process process) {
+    public synchronized void manageException(Process process) {
         process.setState(StateProcess.BLOCKED);
         process.setIoRemainingTime(process.getIoCompletionCycle());
         process.setIoRequestPending(true);
@@ -58,7 +58,7 @@ public class ProcessesManager {
         
         
     
-    public void executeCurrentProcess(){
+    public synchronized void executeCurrentProcess(){
         Process runningProcess = queuesManager.getRunningProcess();
         if (runningProcess == null) return;
         runningProcess.increasePCandMAR();
@@ -74,7 +74,7 @@ public class ProcessesManager {
         }
     }
     
-    public void addNewProcess(Process process){
+    public synchronized void addNewProcess(Process process){
         if (process.getState()!=StateProcess.NEW){
             System.out.println("Not new Process cant add here");
             return;
@@ -84,7 +84,7 @@ public class ProcessesManager {
         
     }
     
-    public void admitNewProcess() {
+    public synchronized void admitNewProcess() {
 
         LinkedList<Process> newQueue = queuesManager.getNewQueue();
         while (!newQueue.isEmpty()) {
@@ -93,11 +93,11 @@ public class ProcessesManager {
         }
     }
 
-    public Process getRunningProcess() {
+    public synchronized Process getRunningProcess() {
         return runningProcess;
     }
 
-    public QueuesManager getQueuesManager() {
+    public synchronized QueuesManager getQueuesManager() {
         return queuesManager;
     }
     

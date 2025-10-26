@@ -68,7 +68,7 @@ public class QueuesManager {
                 getQueueForState(currentState).removeItem(process);
                 process.setState(StateProcess.READY);
                 this.readyQueue.enqueue(process);
-                return;
+                                return;
             case READY:
                 return;
             case EXIT,SUSPENDED_BLOCKED:

@@ -57,6 +57,7 @@ public class SimulationEngine implements Runnable {
             while (isRunning) {
                 
                 currentCycle++; //1.
+                System.out.println(getCurrentCycle());
                 processManager.admitNewProcess();
                 processManager.checkEventCompletion(); //2.
                 Process runningProcess = this.processManager.getRunningProcess();
@@ -69,6 +70,8 @@ public class SimulationEngine implements Runnable {
                 if (this.mainGui != null) {
                     this.mainGui.updateQueueDisplay();
                 }
+                
+                
                 Thread.sleep(cycleDuration); // El sleep hace que se cumpla la duracion de ciclo designada por el usuario.
             }       // Se rodea con un try catch por si, por ejemplo, se cierra la aplicacion durante este sleep.
 
@@ -76,10 +79,15 @@ public class SimulationEngine implements Runnable {
             System.err.println("The simulation has been interrupted.");
             this.isRunning = false;
         }
+        System.out.println(this.getCurrentCycle());
     }
 
     public void setCycleDuration(int cycleDuration) {
         this.cycleDuration = cycleDuration;
+    }
+
+    public ProcessesManager getProcessManager() {
+        return processManager;
     }
 
     public void setCurrentScheduler(Scheduler currentScheduler) {

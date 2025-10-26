@@ -583,16 +583,20 @@ public class MainGui extends javax.swing.JFrame {
             newProcess = Process.createIOProcess(processName, 
                     processInstructionLength, cyclesUntilException,
                     cyclesAfterException, arrivalTime);
+            this.processesManager.addNewProcess(newProcess);
+            System.out.println("IO");
         } else {
             newProcess = Process.createCPUProcess(processName, 
                     processInstructionLength, arrivalTime);
+            this.processesManager.addNewProcess(newProcess);
+            System.out.println("CPU");
         }
         if (newProcess != null) {
             this.processesManager.addNewProcess(newProcess);
         }
         JOptionPane.showMessageDialog(this, "Proceso "+processName +" ha sido creado con exito");
         
-        
+        System.out.println(simulationEngine.getProcessManager().getQueuesManager().getReadyQueue());
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -616,7 +620,7 @@ public class MainGui extends javax.swing.JFrame {
         Schedulers.Scheduler scheduler = Schedulers.SchedulerFactory.createScheduler("FCFS");
         SimulationEngine engine = new SimulationEngine(manager, scheduler);
         Thread simulationThread = new Thread(engine);
-        simulationThread.start();
+        
         
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -640,6 +644,7 @@ public class MainGui extends javax.swing.JFrame {
             MainGui gui = new MainGui(manager, engine);
             engine.setMainGui(gui);
             gui.setVisible(true);
+            simulationThread.start();
         });
         
     }
